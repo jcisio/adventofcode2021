@@ -23,3 +23,4 @@ for f in map(int, f.read().strip().split(',')):
         lanternfish[f] = 1
 
 print("Puzzle 1: ", countLanternFish(lanternfish, 80))
+print("Puzzle 2: ", countLanternFish(lanternfish, 256))
