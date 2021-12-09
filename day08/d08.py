@@ -9,7 +9,7 @@ def solvePart1(data):
 
 def decodeDigits(mapping, digits):
     number = 0
-    segments = ['abcefg', 'cf', 'acdeg', 'acdfg', 'bcdf', 'abdfg', 'abcefg', 'acf', 'abcdefg', 'abcdfg']
+    segments = ['abcefg', 'cf', 'acdeg', 'acdfg', 'bcdf', 'abdfg', 'abdefg', 'acf', 'abcdefg', 'abcdfg']
     for digit in digits:
         realDigit = ''.join(sorted([mapping[d] for d in digit]))
         number = number*10 + segments.index(realDigit)
@@ -30,7 +30,7 @@ def decodeItem(item):
     mapping['e'] = [segment for segment in 'abcdefg' if hist[segment]==4][0]
     mapping['f'] = [segment for segment in 'abcdefg' if hist[segment]==9][0]
     mapping['g'] = [segment for segment in 'abcdefg' if hist[segment]==7 and segment not in digit4][0]
-    print(mapping, item)
+    mapping = {v: k for k, v in mapping.items()}
     return decodeDigits(mapping, item[1].split())
 
 
