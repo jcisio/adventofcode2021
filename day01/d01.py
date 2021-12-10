@@ -1,4 +1,4 @@
-f = open('d01.in', 'r')
+f = open(__file__[:-3] + '.in', 'r')
 
 
 def findMeasurementIncreases(lines, window_size = 1):
