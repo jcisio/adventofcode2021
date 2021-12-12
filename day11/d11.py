@@ -1,5 +1,6 @@
 import math
 import time
+import copy
 
 
 f = open(__file__[:-3] + '.in', 'r')
@@ -70,5 +71,16 @@ def solvePart1(octopus: Octopus):
     return x
 
 
+def solvePart2(octopus: Octopus):
+    step = 0
+    while True:
+        step += 1
+        octopus.oneStep()
+        if sum(octopus.positions) == 0:
+            break
+    return step
+
+
 octopus = Octopus(list(map(int, ''.join(f.read().strip().split('\n')))))
-print("Puzzle 1: ", solvePart1(octopus))
+print("Puzzle 1: ", solvePart1(copy.copy(octopus)))
+print("Puzzle 2: ", solvePart2(octopus))
