@@ -20,6 +20,7 @@ class Problem:
     def solve(self):
         self.readInput()
         print("Puzzle 1: ", self.solvePart1())
+        print("Puzzle 2: ", self.solvePart2())
 
     def fold(self, instruction):
         i = instruction[1]
@@ -38,9 +39,23 @@ class Problem:
                     self.dots[(i*2 - k[0], k[1])] = True
 
     def solvePart1(self):
+        dots = self.dots.copy()
         self.fold(self.instructions[0])
-        return len(self.dots)
+        result = len(self.dots)
+        self.dots = dots
+        return result
 
+    def solvePart2(self):
+        for instruction in self.instructions:
+            self.fold(instruction)
+        width = max(self.dots, key=lambda x: x[0])[0] + 1
+        height = max(self.dots, key=lambda x: x[1])[1] + 1
+        result = '\n'
+        for y in range(height):
+            for x in range(width):
+                result += '#' if (x, y) in self.dots else ' '
+            result += '\n'
+        return result
 
 problem = Problem()
 problem.solve()
