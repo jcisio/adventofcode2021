@@ -1,20 +1,14 @@
 class Packet:
 
-    bits = []
-    version = 0
-    type = 0
-    data = {}
-    # For literal packets, data contains the literal 'value'
-    # For operator packets, data contains length_type_id, length and packets.
-
     def __init__(self, bits):
         self.bits = bits
-        print('Initializing packet with bits:', self.bits)
+        #print('Initializing packet with bits:', self.bits)
 
     # Parses data and returns the number of bits in the packet
     def parse(self):
         self.version = int(self.bits[:3], 2)
         self.type = int(self.bits[3:6], 2)
+        self.data = {}
         if self.type == 4:
             self.data['value'] = 0
             i = 6
@@ -47,8 +41,6 @@ class Packet:
 
 class Problem:
 
-    packet = None
-
     def readInput(self):
         f = open(__file__[:-3] + '.in', 'r')
         data = f.read().strip()
@@ -60,7 +52,7 @@ class Problem:
 
     def sumVersion(self, packet):
         version = packet.version
-        if packet.data['packets']:
+        if 'packets' in packet.data:
             for p in packet.data['packets']:
                 version += self.sumVersion(p)
         return version
