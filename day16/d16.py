@@ -1,3 +1,5 @@
+from functools import reduce
+
 class Packet:
 
     def __init__(self, bits):
@@ -49,6 +51,7 @@ class Problem:
     def solve(self):
         self.readInput()
         print("Puzzle 1: ", self.solvePart1())
+        print("Puzzle 2: ", self.solvePart2())
 
     def sumVersion(self, packet):
         version = packet.version
@@ -57,9 +60,33 @@ class Problem:
                 version += self.sumVersion(p)
         return version
 
+    def processPacket(self, packet):
+        if packet.type == 4:
+            return packet.data['value']
+        elif packet.type == 0:
+            return sum(self.processPacket(p) for p in packet.data['packets'])
+        elif packet.type == 1:
+            return reduce(lambda x, y: x * y, [self.processPacket(p) for p in packet.data['packets']])
+        elif packet.type == 2:
+            return min(self.processPacket(p) for p in packet.data['packets'])
+        elif packet.type == 3:
+            return max(self.processPacket(p) for p in packet.data['packets'])
+        elif packet.type == 5:
+            return 1 if self.processPacket(packet.data['packets'][0]) > self.processPacket(packet.data['packets'][1]) else 0
+        elif packet.type == 6:
+            return 1 if self.processPacket(packet.data['packets'][0]) < self.processPacket(packet.data['packets'][1]) else 0
+        elif packet.type == 7:
+            return 1 if self.processPacket(packet.data['packets'][0]) == self.processPacket(packet.data['packets'][1]) else 0
+        else:
+            raise Exception('Unknown packet type:', packet.type)
+
     def solvePart1(self):
         self.packet.parse()
         return self.sumVersion(self.packet)
+
+    def solvePart2(self):
+        self.packet.parse()
+        return self.processPacket(self.packet)
 
 
 problem = Problem()
