@@ -38,13 +38,14 @@ class Problem:
             self.map[(move[0] + 1) % self.m][move[1]] = 'v'
         return c
 
+    def print(self):
+        for line in self.map:
+            print(''.join(line))
+
     def solvePart1(self):
-        n = 0
+        n = 1
         while self.move():
             n += 1
-            print('Step', n)
-            print(self.map)
-            if n == 3: break
         return n
 
 
